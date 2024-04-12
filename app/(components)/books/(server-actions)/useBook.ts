@@ -38,3 +38,8 @@ export const handleUpdate = async (id: any, formData : any) => {
     console.log(error.message);
   }
 };
+
+export const removeBookRecord = async (id: any) => {
+  const {data: book} = await supabase.from("books").delete().eq("id", id);
+  return book;
+  }

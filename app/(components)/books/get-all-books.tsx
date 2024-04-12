@@ -8,11 +8,13 @@ import { IoTrashBinOutline } from "react-icons/io5";
 import { fetchBooks } from "./(server-actions)/useBook";
 import AddBookData from "./add-book";
 import EditBookData from "./edit-book";
+import DeleteBook from "./delete-book";
 
 export default function BooksTable() {
   const [books, setBooks] = useState<any>([]);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedBookId, setSelectedBookId] = useState<any>(null);
 
   useEffect(() => {
@@ -37,8 +39,17 @@ export default function BooksTable() {
           <h1>List of books</h1>
         </div>
         <div className="mb-4">
-          <Button onClick={() => {setOpenAddModal(true)}}>Add book</Button>
-          <AddBookData openModal={openAddModal} setOpenModal={setOpenAddModal} />
+          <Button
+            onClick={() => {
+              setOpenAddModal(true);
+            }}
+          >
+            Add book
+          </Button>
+          <AddBookData
+            openModal={openAddModal}
+            setOpenModal={setOpenAddModal}
+          />
         </div>
 
         <div className="relative overflow-y-auto">
@@ -72,27 +83,33 @@ export default function BooksTable() {
                         name="edit"
                         outline
                         onClick={() => {
-                          setSelectedBookId(book.id),
-                          setOpenEditModal(true)
+                          setSelectedBookId(book.id), setOpenEditModal(true);
                         }}
                         size="md"
                       >
                         <HiOutlinePencilAlt />
                       </Button>
                       <EditBookData
-                              bookId={selectedBookId}
-                              openModal={openEditModal}
-                              setOpenModal={setOpenEditModal}
-                            />
+                        bookId={selectedBookId}
+                        openModal={openEditModal}
+                        setOpenModal={setOpenEditModal}
+                      />
                       <Button
                         id="delete"
                         name="delete"
                         outline
-                        onClick={() => setOpenAddModal(true)}
+                        onClick={() => {
+                          setSelectedBookId(book.id), setOpenDeleteModal(true);
+                        }}
                         size="md"
                       >
                         <IoTrashBinOutline />
                       </Button>
+                        <DeleteBook
+                          bookId={selectedBookId}
+                          openModal={openDeleteModal}
+                          setOpenModal={setOpenDeleteModal}
+                        />
                     </ButtonGroup>
                   </Table.Cell>
                 </Table.Row>
