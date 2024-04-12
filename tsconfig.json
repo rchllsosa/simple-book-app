@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/data.ts", "app/books/page.tsx", "app/ui/books/books-table.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/data.ts", "app/(components)/books/page.tsx", "app/(components)/books/get-all-books.tsx"],
   "exclude": ["node_modules"]
 }

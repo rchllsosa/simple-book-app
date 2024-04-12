@@ -1,18 +1,20 @@
 "use client";
 
-import { Button, Datepicker, Dropdown, Modal, TextInput } from "flowbite-react";
-import { useState } from "react";
-import { handleCreate } from "../lib/data";
+import { Button, Datepicker, Modal, TextInput } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { fetchBookDetails, handleUpdate } from "./(server-actions)/useBook";
 
-interface AddBookDataProps {
+interface EditBookDataProps {
+  bookId: any;
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
 }
 
-export default function AddBookData({
+export default function EditBookData({
+  bookId,
   openModal,
   setOpenModal,
-}: AddBookDataProps) {
+}: EditBookDataProps) {
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -41,10 +43,28 @@ export default function AddBookData({
     setFormData({ ...formData, genre: e.target.value });
   };
 
+  useEffect(() => {
+    // Fetch book details when the component mounts
+    fetchBookDetails(bookId)
+      .then((book: any) => {
+        // Populate the form fields with fetched book details
+        setFormData({
+          title: book[0].title,
+          author: book[0].author,
+          genre: book[0].genre,
+          published_date: new Date(book[0].published_date),
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching book details:", error);
+        // Handle error
+      });
+  }, [bookId]); // Run the effect when bookId changes
+
   return (
     <>
-      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Add book information</Modal.Header>
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Edit book information</Modal.Header>
         <Modal.Body>
           <div className="mb-4">
             <label htmlFor="title" className="mb-2 block text-sm font-medium">
@@ -68,7 +88,7 @@ export default function AddBookData({
               name="author"
               type="string"
               placeholder="Enter the name of the author"
-              value={formData?.author}
+              value={formData.author}
               onChange={handleChange}
             />
           </div>
@@ -81,7 +101,7 @@ export default function AddBookData({
                 id="date"
                 name="date"
                 placeholder="Select date"
-                defaultDate={formData?.published_date}
+                defaultDate={formData.published_date}
                 onChange={handleChange}
               />
             </div>
@@ -115,10 +135,10 @@ export default function AddBookData({
           <Button
             type="submit"
             onClick={() => {
-              handleCreate(formData), setOpenModal(false);
+                handleUpdate(bookId, formData), setOpenModal(false);
             }}
           >
-            Add
+            Save changes
           </Button>
         </Modal.Footer>
       </Modal>

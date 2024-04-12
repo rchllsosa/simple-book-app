@@ -1,5 +1,5 @@
 export type Book = {
-    id: string;
+    id: Int32Array;
     title: string;
     author: string;
     genre: string;

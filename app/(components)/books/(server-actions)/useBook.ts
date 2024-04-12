@@ -16,10 +16,24 @@ export const fetchBooks = async () => {
   return books;
 };
 
+export const fetchBookDetails = async (id: any) => {
+const {data: book} = await supabase.from("books").select("*").eq("id", id);
+return book;
+}
+
 export const handleCreate = async (formData : any) => {
   try {
-    const res = await supabase.from('books').insert([formData]).select();
-    console.log('res', res);
+    return await supabase.from('books').insert([formData]).select();
+  } catch (error : any) {
+    console.log(error.message);
+  }
+};
+
+export const handleUpdate = async (id: any, formData : any) => {
+  try {
+    const res = await supabase.from("books").update(formData).eq("id", id);
+// console.log(res);
+
   } catch (error : any) {
     console.log(error.message);
   }

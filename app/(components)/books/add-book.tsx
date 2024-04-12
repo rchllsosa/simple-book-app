@@ -2,17 +2,17 @@
 
 import { Button, Datepicker, Dropdown, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
-import { handleCreate } from "../lib/data";
+import { handleCreate } from "./(server-actions)/useBook";
 
-interface EditBookDataProps {
+interface AddBookDataProps {
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
 }
 
-export default function EditBookData({
+export default function AddBookData({
   openModal,
   setOpenModal,
-}: EditBookDataProps) {
+}: AddBookDataProps) {
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -43,7 +43,7 @@ export default function EditBookData({
 
   return (
     <>
-      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Add book information</Modal.Header>
         <Modal.Body>
           <div className="mb-4">
@@ -118,7 +118,7 @@ export default function EditBookData({
               handleCreate(formData), setOpenModal(false);
             }}
           >
-            Save changes
+            Add
           </Button>
         </Modal.Footer>
       </Modal>
