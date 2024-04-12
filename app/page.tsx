@@ -9,7 +9,7 @@ import Books from "./(components)/books/page";
 
 export default async function Index() {
   return (
-    <main className="flex min-h-screen flex-col p-6">
+    <main className="flex min-h-screen min-w-auto flex-col p-6">
       <div className="flex h-20 shrink-0 justify-center rounded-lg p-4 md:h-25">
           <p className={`${inter.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}>
             <strong>Simple Book App</strong>
