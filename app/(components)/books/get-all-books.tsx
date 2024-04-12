@@ -3,31 +3,23 @@ import { Suspense, useEffect, useState } from "react";
 import { Button, ButtonGroup, Table } from "flowbite-react";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { IoTrashBinOutline } from "react-icons/io5";
-import { fetchBooks } from "./(server-actions)/useBook";
+import { fetchBooks } from "./(server-actions)/data";
 import AddBookData from "./add-book";
 import EditBookData from "./edit-book";
 import DeleteBook from "./delete-book";
+import { useBookStore } from "@/app/store";
 
 export default function BooksTable() {
-  const [books, setBooks] = useState<any>([]);
+  // const [books, setBooks] = useState<any>([]);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedBookId, setSelectedBookId] = useState<any>(null);
+  const getAllBooks = useBookStore((state) => state.fetchAllBooks);
+  const books = useBookStore((state) => state.books);
 
   useEffect(() => {
-    const fetchData = () => {
-      fetchBooks()
-        .then((fetchedBooks) => {
-          setBooks(fetchedBooks);
-        })
-        .catch((error) => {
-          console.error("Unexpected error fetching books:", error);
-          // Handle unexpected errors
-        });
-    };
-
-    fetchData();
+    getAllBooks();
   }, []);
 
   return (
@@ -35,6 +27,8 @@ export default function BooksTable() {
       <div className="mt-5 mb-4 md:w-full">
         <div className="item-center">
           <h1>List of books</h1>
+          {/* <h1>Count: {book1}</h1> */}
+
         </div>
         <div className="mb-4">
           <Button

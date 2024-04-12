@@ -2,7 +2,8 @@
 
 import { Button, Datepicker, Modal, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { fetchBookDetails, handleUpdate } from "./(server-actions)/useBook";
+import { useBookStore } from "@/app/store";
+import { Book } from "@/app/lib/definitions";
 
 interface EditBookDataProps {
   bookId: any;
@@ -43,23 +44,25 @@ export default function EditBookData({
     setFormData({ ...formData, genre: e.target.value });
   };
 
+  const getBookById = useBookStore((state) => state.getBookById);
+const handleUpdate = useBookStore((state) => state.handleUpdate);
+
   useEffect(() => {
-    // Fetch book details when the component mounts
-    fetchBookDetails(bookId)
-      .then((book: any) => {
-        // Populate the form fields with fetched book details
-        setFormData({
-          title: book[0].title,
-          author: book[0].author,
-          genre: book[0].genre,
-          published_date: new Date(book[0].published_date),
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching book details:", error);
-        // Handle error
+    const book: Book | undefined = getBookById(bookId);
+    if (book) {
+      setFormData({
+        title: book.title,
+        author: book.author,
+        genre: book.genre,
+        published_date: new Date(book.published_date),
       });
-  }, [bookId]); // Run the effect when bookId changes
+    }
+  }, [bookId]);
+
+  const handleSaveChanges = async () => {
+    await handleUpdate(bookId, formData);
+    setOpenModal(false);
+  };
 
   return (
     <>
@@ -135,7 +138,7 @@ export default function EditBookData({
           <Button
             type="submit"
             onClick={() => {
-                handleUpdate(bookId, formData), setOpenModal(false);
+              handleSaveChanges();
             }}
           >
             Save changes

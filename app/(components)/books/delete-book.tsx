@@ -1,7 +1,8 @@
 "use client";
 
 import { Button, Modal } from "flowbite-react";
-import { removeBookRecord } from "./(server-actions)/useBook";
+import { removeBookRecord } from "./(server-actions)/data";
+import { useBookStore } from "@/app/store";
 
 interface EditBookDataProps {
   bookId: any;
@@ -14,6 +15,12 @@ export default function DeleteBook({
   openModal,
   setOpenModal,
 }: EditBookDataProps) {
+  const handleDelete = useBookStore((state) => state.handleDelete);
+  
+  const handleSubmit = async () => {
+    await handleDelete(bookId);
+    setOpenModal(false);
+  };
   return (
     <>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
@@ -32,7 +39,7 @@ export default function DeleteBook({
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Cancel
           </Button>
-          <Button type="submit" color="failure" onClick={() => (removeBookRecord(bookId), setOpenModal(false))}>
+          <Button type="submit" color="failure" onClick={() => (handleSubmit())}>
             Confirm
           </Button>
         </Modal.Footer>

@@ -1,12 +1,11 @@
 "use server";
-
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 import { createClient } from "@/utils/supabase/server";
 
 const supabase = createClient();
 
 export const fetchBooks = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
   const { data: books, error } = await supabase.from("books").select();
 
   if (error) {
@@ -18,30 +17,37 @@ export const fetchBooks = async () => {
   return books;
 };
 
-export const fetchBookDetails = async (id: any) => {
-const {data: book} = await supabase.from("books").select("*").eq("id", id);
-return book;
+export const fetchBookDetails = async (id: Int32Array) => {
+try {
+  const {data: book} = await supabase.from("books").select("*").eq("id", id);
+  console.log("res123", book);
+  return book;
+} catch (error : any) {
+  console.log(error.message);
+}
 }
 
 export const handleCreate = async (formData : any) => {
   try {
-    return await supabase.from('books').insert([formData]).select();
+    const result = await supabase.from('books').insert([formData]).select();
+    return result;
+
   } catch (error : any) {
     console.log(error.message);
   }
+  
 };
 
 export const handleUpdate = async (id: any, formData : any) => {
   try {
-    const res = await supabase.from("books").update(formData).eq("id", id);
-// console.log(res);
-
+    const result = await supabase.from("books").update(formData).eq("id", id);
+    return result;
   } catch (error : any) {
     console.log(error.message);
   }
 };
 
 export const removeBookRecord = async (id: any) => {
-  const {data: book} = await supabase.from("books").delete().eq("id", id);
-  return book;
+  const {data: bookToRemove} = await supabase.from("books").delete().eq("id", id);
+  return bookToRemove;
   }

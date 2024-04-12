@@ -2,7 +2,7 @@
 
 import { Button, Datepicker, Dropdown, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
-import { handleCreate } from "./(server-actions)/useBook";
+import { useBookStore } from "@/app/store";
 
 interface AddBookDataProps {
   openModal: boolean;
@@ -40,6 +40,14 @@ export default function AddBookData({
   const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData({ ...formData, genre: e.target.value });
   };
+
+  const handleCreate = useBookStore((state) => state.handleCreate);
+
+  const handleSubmit = (data: any) => {
+    handleCreate(data);
+    setOpenModal(false);
+  }
+  
 
   return (
     <>
@@ -115,7 +123,7 @@ export default function AddBookData({
           <Button
             type="submit"
             onClick={() => {
-              handleCreate(formData), setOpenModal(false);
+              handleSubmit(formData);
             }}
           >
             Add
