@@ -1,5 +1,8 @@
 "use server";
+
 import { createClient } from "@/utils/supabase/server";
+import { Book } from "./definitions";
+import { useRouter } from "next/navigation";
 
 const supabase = createClient();
 
@@ -13,4 +16,15 @@ export const fetchBooks = async () => {
   }
 
   return books;
+};
+
+export const handleCreate = async (formData : any) => {
+  console.log("test", formData);
+
+  try {
+    const test = await supabase.from("books").insert([formData]);
+    console.log("test", test);
+  } catch (error : any) {
+    console.log(error.message);
+  }
 };
