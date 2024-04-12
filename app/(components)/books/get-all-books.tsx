@@ -32,7 +32,7 @@ export default function BooksTable() {
 
   return (
     <>
-      <div className="mt-5 mb-4">
+      <div className="mt-5 mb-4 md:w-full">
         <div className="item-center">
           <h1>List of books</h1>
         </div>
