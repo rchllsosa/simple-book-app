@@ -3,8 +3,11 @@ import { fetchBooks } from "@/app/lib/data";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { Button, Table } from "flowbite-react";
+import { Button, ButtonGroup, Table } from "flowbite-react";
 import AddBookData from "@/app/books/add-book";
+import EditBookData from "@/app/books/edit-book";
+import { HiOutlinePencil, HiOutlinePencilAlt } from "react-icons/hi";
+import { IoTrashBinOutline } from "react-icons/io5";
 
 export default function BooksTable() {
   const [books, setBooks] = useState<any>([]);
@@ -31,7 +34,7 @@ export default function BooksTable() {
       <Button onClick={() => setOpenModal(true)}>Add book</Button>
       <AddBookData openModal={openModal} setOpenModal={setOpenModal} />
 
-      <div className="overflow-x-auto">
+      <div className="relative overflow-y-auto">
         <Table hoverable>
           <Table.Head>
             <Table.HeadCell>Title</Table.HeadCell>
@@ -58,12 +61,28 @@ export default function BooksTable() {
                   {book.genre}
                 </Table.Cell>
                 <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
+                  <ButtonGroup>
+                    <Button
+                      outline
+                      onClick={() => setOpenModal(true)}
+                      size="sm"
+                    >
+                      <HiOutlinePencilAlt />
+                      
+                    </Button>
+                    <EditBookData
+                      openModal={openModal}
+                      setOpenModal={setOpenModal}
+                    />
+                    <Button
+                      outline
+                      onClick={() => setOpenModal(true)}
+                      size="sm"
+                    >
+                      <IoTrashBinOutline />
+                      
+                    </Button>
+                  </ButtonGroup>
                 </Table.Cell>
               </Table.Row>
             ))}
