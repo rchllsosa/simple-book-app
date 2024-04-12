@@ -16,12 +16,29 @@ export default function AddBookData({
   const [formData, setFormData] = useState({
     title: "",
     author: "",
-    published_date: new Date(),
     genre: "",
+    published_date: new Date(),
   });
+  const genres = [
+    "Fantasy",
+    "Science Fiction",
+    "Mystery",
+    "Thriller",
+    "Romance",
+    "Horror",
+    "Adventure",
+  ];
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  const onChange = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData({ ...formData, genre: e.target.value });
   };
 
   return (
@@ -39,7 +56,7 @@ export default function AddBookData({
               type="string"
               placeholder="Enter book title"
               value={formData?.title}
-              onChange={onChange}
+              onChange={handleChange}
             />
           </div>
           <div className="mb-4">
@@ -52,7 +69,7 @@ export default function AddBookData({
               type="string"
               placeholder="Enter the name of the author"
               value={formData?.author}
-              onChange={onChange}
+              onChange={handleChange}
             />
           </div>
           <div className="flex flex-wrap -mx-2 mb-4">
@@ -65,25 +82,29 @@ export default function AddBookData({
                 name="date"
                 placeholder="Select date"
                 defaultDate={formData?.published_date}
-                onChange={onChange}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full md:w-1/2 px-2">
               <label htmlFor="genre" className="mb-2 block text-sm font-medium">
                 Genre
               </label>
-              <Dropdown
-                label="Select genre"
-                outline
-                dismissOnClick={false}
-                value={formData?.genre}
-                onChange={onChange}
+              <select
+                id="genre"
+                name="genre"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={formData.genre}
+                onChange={handleGenreChange}
               >
-                <Dropdown.Item>Dashboard</Dropdown.Item>
-                <Dropdown.Item>Settings</Dropdown.Item>
-                <Dropdown.Item>Earnings</Dropdown.Item>
-                <Dropdown.Item>Sign out</Dropdown.Item>
-              </Dropdown>
+                <option value="" disabled>
+                  Select a genre
+                </option>
+                {genres.map((genre) => (
+                  <option key={genre} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </Modal.Body>
