@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, Datepicker, Dropdown, Modal, TextInput } from "flowbite-react";
-import Link from "next/link";
 
 interface AddBookDataProps {
   openModal: boolean;

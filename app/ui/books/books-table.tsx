@@ -3,13 +3,12 @@ import { fetchBooks } from "@/app/lib/data";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { Button } from "flowbite-react";
-import AddBookData from "@/app/books/create/page";
+import { Button, Table } from "flowbite-react";
+import AddBookData from "@/app/books/add-book";
 
 export default function BooksTable() {
   const [books, setBooks] = useState<any>([]);
   const [openModal, setOpenModal] = useState(false);
-  console.log("state", openModal);
 
   useEffect(() => {
     const fetchData = () => {
@@ -27,45 +26,50 @@ export default function BooksTable() {
   }, []);
 
   return (
-    <div className="mt-6 flow-root">
-      <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <h1>List of books</h1>
-        </div>
-        <Button onClick={() => setOpenModal(true)}>Add book</Button>
-        <AddBookData openModal={openModal} setOpenModal={setOpenModal} />
-        <table className="hidden min-w-full text-gray-900 md:table">
-          <thead className="rounded-lg text-left text-sm font-normal">
-            <tr>
-              <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                Title
-              </th>
-              <th scope="col" className="px-3 py-5 font-medium">
-                Author
-              </th>
-              <th scope="col" className="px-3 py-5 font-medium">
-                Date Published
-              </th>
-              <th scope="col" className="px-3 py-5 font-medium">
-                Genre
-              </th>
-              <th scope="col" className="relative py-3 pl-6 pr-3">
-                <span className="sr-only">Edit</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white">
-            {books.map((book: any) => (
-              <tr key={book.id}>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.published_date}</td>
-                <td>{book.genre}</td>
-              </tr>
+    <>
+      <h1>List of books</h1>
+      <Button onClick={() => setOpenModal(true)}>Add book</Button>
+      <AddBookData openModal={openModal} setOpenModal={setOpenModal} />
+
+      <div className="overflow-x-auto">
+        <Table hoverable>
+          <Table.Head>
+            <Table.HeadCell>Title</Table.HeadCell>
+            <Table.HeadCell>Author</Table.HeadCell>
+            <Table.HeadCell>Published date</Table.HeadCell>
+            <Table.HeadCell>Genre</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Edit</span>
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {books?.map((book: any) => (
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {book.title}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {book.author}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {book.published_date}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {book.genre}
+                </Table.Cell>
+                <Table.Cell>
+                  <a
+                    href="#"
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                  >
+                    Edit
+                  </a>
+                </Table.Cell>
+              </Table.Row>
             ))}
-          </tbody>
-        </table>
+          </Table.Body>
+        </Table>
       </div>
-    </div>
+    </>
   );
 }
