@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Datepicker, Dropdown, Modal, TextInput } from "flowbite-react";
+import { Button, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { useBookStore } from "@/app/store";
 
@@ -13,11 +13,12 @@ export default function AddBookData({
   openModal,
   setOpenModal,
 }: AddBookDataProps) {
+  const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
   const [formData, setFormData] = useState({
     title: "",
     author: "",
     genre: "",
-    published_date: new Date(),
+    published_date: today,
   });
   const genres = [
     "Fantasy",
@@ -41,6 +42,10 @@ export default function AddBookData({
     setFormData({ ...formData, genre: e.target.value });
   };
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, published_date: e.target.value });
+  };
+
   const handleCreate = useBookStore((state) => state.handleCreate);
 
   const handleSubmit = (data: any) => {
@@ -48,7 +53,6 @@ export default function AddBookData({
     setOpenModal(false);
   }
   
-
   return (
     <>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
@@ -85,12 +89,12 @@ export default function AddBookData({
               <label htmlFor="date" className="mb-2 block text-sm font-medium">
                 Published date
               </label>
-              <Datepicker
-                id="date"
-                name="date"
-                placeholder="Select date"
-                defaultDate={formData?.published_date}
-                onChange={handleChange}
+              <input datepicker-autohide
+              type="date"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Select date"
+              defaultValue={formData?.published_date}
+              onChange={handleDateChange}
               />
             </div>
             <div className="w-full md:w-1/2 px-2">

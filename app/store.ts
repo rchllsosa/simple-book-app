@@ -4,6 +4,7 @@ import { Book } from './lib/definitions';
 
 type BookStore = {
     books: any[];
+    isLoading: boolean;
     fetchAllBooks: () => Promise<any>;
     handleCreate: (payload: any) => Promise<any>;
     getBookById: (id: Int32Array) => Book | undefined;
@@ -13,9 +14,17 @@ type BookStore = {
 
 export const useBookStore = create<BookStore>((set, get) => ({
     books: [],
+    isLoading: false,
     fetchAllBooks: async () => {
-        const response = await fetchBooks();
-        set(() => ({books: response}));
+        set({ isLoading: true });
+        try {
+            const response = await fetchBooks();
+            set(() => ({books: response, isLoading: false}));
+            
+        } catch (error) {
+            console.error("Error fetching books:", error);
+      set({ isLoading: false });
+        }
     },
     handleCreate: async (payload: any) => {
         const response = await handleCreate(payload);

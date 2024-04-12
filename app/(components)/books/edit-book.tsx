@@ -20,7 +20,7 @@ export default function EditBookData({
     title: "",
     author: "",
     genre: "",
-    published_date: new Date(),
+    published_date: "",
   });
   const genres = [
     "Fantasy",
@@ -44,17 +44,21 @@ export default function EditBookData({
     setFormData({ ...formData, genre: e.target.value });
   };
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, published_date: e.target.value });
+  };
+
   const getBookById = useBookStore((state) => state.getBookById);
 const handleUpdate = useBookStore((state) => state.handleUpdate);
 
   useEffect(() => {
-    const book: Book | undefined = getBookById(bookId);
+    const book: any | undefined = getBookById(bookId);
     if (book) {
       setFormData({
         title: book.title,
         author: book.author,
         genre: book.genre,
-        published_date: new Date(book.published_date),
+        published_date: book.published_date,
       });
     }
   }, [bookId]);
@@ -100,12 +104,12 @@ const handleUpdate = useBookStore((state) => state.handleUpdate);
               <label htmlFor="date" className="mb-2 block text-sm font-medium">
                 Published date
               </label>
-              <Datepicker
-                id="date"
-                name="date"
-                placeholder="Select date"
-                defaultDate={formData.published_date}
-                onChange={handleChange}
+              <input datepicker-autohide
+              type="date"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Select date"
+              defaultValue={formData?.published_date}
+              onChange={handleDateChange}
               />
             </div>
             <div className="w-full md:w-1/2 px-2">
