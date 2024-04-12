@@ -51,74 +51,92 @@ export default function AddBookData({
   const handleSubmit = (data: any) => {
     handleCreate(data);
     setOpenModal(false);
-  }
-  
+    setFormData({
+      title: "",
+      author: "",
+      genre: "",
+      published_date: today,
+    });
+  };
+
   return (
     <>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Add book information</Modal.Header>
         <Modal.Body>
-          <div className="mb-4">
-            <label htmlFor="title" className="mb-2 block text-sm font-medium">
-              Title
-            </label>
-            <TextInput
-              id="title"
-              name="title"
-              type="string"
-              placeholder="Enter book title"
-              value={formData?.title}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="author" className="mb-2 block text-sm font-medium">
-              Author
-            </label>
-            <TextInput
-              id="author"
-              name="author"
-              type="string"
-              placeholder="Enter the name of the author"
-              value={formData?.author}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-wrap -mx-2 mb-4">
-            <div className="w-full md:w-1/2 px-2">
-              <label htmlFor="date" className="mb-2 block text-sm font-medium">
-                Published date
+          <form>
+            <div className="mb-4">
+              <label htmlFor="title" className="mb-2 block text-sm font-medium">
+                Title
               </label>
-              <input datepicker-autohide
-              type="date"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Select date"
-              defaultValue={formData?.published_date}
-              onChange={handleDateChange}
+              <TextInput
+                id="title"
+                name="title"
+                type="string"
+                placeholder="Enter book title"
+                value={formData?.title}
+                onChange={handleChange}
               />
             </div>
-            <div className="w-full md:w-1/2 px-2">
-              <label htmlFor="genre" className="mb-2 block text-sm font-medium">
-                Genre
-              </label>
-              <select
-                id="genre"
-                name="genre"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value={formData.genre}
-                onChange={handleGenreChange}
+            <div className="mb-4">
+              <label
+                htmlFor="author"
+                className="mb-2 block text-sm font-medium"
               >
-                <option value="" disabled>
-                  Select a genre
-                </option>
-                {genres.map((genre) => (
-                  <option key={genre} value={genre}>
-                    {genre}
-                  </option>
-                ))}
-              </select>
+                Author
+              </label>
+              <TextInput
+                id="author"
+                name="author"
+                type="string"
+                placeholder="Enter the name of the author"
+                value={formData?.author}
+                onChange={handleChange}
+              />
             </div>
-          </div>
+            <div className="flex flex-wrap -mx-2 mb-4">
+              <div className="w-full md:w-1/2 px-2">
+                <label
+                  htmlFor="date"
+                  className="mb-2 block text-sm font-medium"
+                >
+                  Published date
+                </label>
+                <input
+                  datepicker-autohide
+                  type="date"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Select date"
+                  defaultValue={formData?.published_date}
+                  onChange={handleDateChange}
+                />
+              </div>
+              <div className="w-full md:w-1/2 px-2">
+                <label
+                  htmlFor="genre"
+                  className="mb-2 block text-sm font-medium"
+                >
+                  Genre
+                </label>
+                <select
+                  id="genre"
+                  name="genre"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={formData.genre}
+                  onChange={handleGenreChange}
+                >
+                  <option value="" disabled>
+                    Select a genre
+                  </option>
+                  {genres.map((genre) => (
+                    <option key={genre} value={genre}>
+                      {genre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </form>
         </Modal.Body>
         <Modal.Footer className="justify-end">
           <Button color="gray" onClick={() => setOpenModal(false)}>
