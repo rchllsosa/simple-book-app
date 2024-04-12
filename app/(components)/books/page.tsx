@@ -2,9 +2,9 @@
 import BooksTable from "./get-all-books";
 
 export default async function Books() {
-  return(
+  return (
     <div className="mt-10">
-    <BooksTable />
+      <BooksTable />
     </div>
   );
 }

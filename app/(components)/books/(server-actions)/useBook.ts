@@ -5,6 +5,8 @@ import { createClient } from "@/utils/supabase/server";
 const supabase = createClient();
 
 export const fetchBooks = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
   const { data: books, error } = await supabase.from("books").select();
 
   if (error) {

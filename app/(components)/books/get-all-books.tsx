@@ -1,9 +1,7 @@
 "use client";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { Suspense, useEffect, useState } from "react";
 import { Button, ButtonGroup, Table } from "flowbite-react";
-import { HiOutlinePencil, HiOutlinePencilAlt } from "react-icons/hi";
+import { HiOutlinePencilAlt } from "react-icons/hi";
 import { IoTrashBinOutline } from "react-icons/io5";
 import { fetchBooks } from "./(server-actions)/useBook";
 import AddBookData from "./add-book";
@@ -62,7 +60,7 @@ export default function BooksTable() {
               <Table.HeadCell>Actions</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {books?.map((book: any) => (
+              {books.map((book: any) => (
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     {book.title}
@@ -105,11 +103,11 @@ export default function BooksTable() {
                       >
                         <IoTrashBinOutline />
                       </Button>
-                        <DeleteBook
-                          bookId={selectedBookId}
-                          openModal={openDeleteModal}
-                          setOpenModal={setOpenDeleteModal}
-                        />
+                      <DeleteBook
+                        bookId={selectedBookId}
+                        openModal={openDeleteModal}
+                        setOpenModal={setOpenDeleteModal}
+                      />
                     </ButtonGroup>
                   </Table.Cell>
                 </Table.Row>
